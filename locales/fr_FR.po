@@ -1,0 +1,394 @@
+# Inventory Duplicate Checker - French translation
+# Copyright (C) 2026
+# This file is distributed under the same license as the Inventory Duplicate Checker package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Inventory Duplicate Checker 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-07 00:00+0000\n"
+"PO-Revision-Date: 2026-05-07 00:00+0000\n"
+"Last-Translator: Translator <translator@example.com>\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Inventory Duplicate Checker"
+msgstr "Vérificateur de doublons d'inventaire"
+
+msgid "Duplicate Checker"
+msgstr "Vérificateur de doublons"
+
+msgid "Detects duplicates by serial number, UUID, and name"
+msgstr "Détecte les doublons par numéro de série, UUID et nom"
+
+msgid "Rescan"
+msgstr "Relancer le scan"
+
+msgid "No duplicates detected"
+msgstr "Aucun doublon détecté"
+
+msgid "all inventory items appear to be unique."
+msgstr "tous les éléments d'inventaire semblent être uniques."
+
+msgid "duplicate pair"
+msgid_plural "duplicate pairs"
+msgstr[0] "doublon"
+msgstr[1] "doublons"
+
+msgid "found"
+msgstr "détecté(s)"
+
+msgid "across"
+msgstr "sur"
+
+msgid "asset type"
+msgid_plural "asset types"
+msgstr[0] "type d'actif"
+msgstr[1] "types d'actifs"
+
+msgid "pair"
+msgid_plural "pairs"
+msgstr[0] "paire"
+msgstr[1] "paires"
+
+msgid "Match"
+msgstr "Correspondance"
+
+msgid "Match Value"
+msgstr "Valeur correspondante"
+
+msgid "Item A"
+msgstr "Élément A"
+
+msgid "Item B"
+msgstr "Élément B"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Compare"
+msgstr "Comparer"
+
+msgid "Ignore"
+msgstr "Ignorer"
+
+msgid "Mark as not a duplicate"
+msgstr "Marquer comme non-doublon"
+
+msgid "Imported by GLPI Agent"
+msgstr "Importé par l'agent GLPI"
+
+msgid "Showing %d–%d of %d pairs"
+msgstr "Affichage %d–%d sur %d paires"
+
+msgid "Per page:"
+msgstr "Par page :"
+
+msgid "Failed to ignore pair"
+msgstr "Échec de l'ignorance du doublon"
+
+msgid "Network error"
+msgstr "Erreur réseau"
+
+msgid "Back to list"
+msgstr "Retour à la liste"
+
+msgid "Compare %s Duplicates"
+msgstr "Comparer les doublons %s"
+
+msgid "Match by"
+msgstr "Correspondance par"
+
+msgid "rows highlighted in yellow have different values"
+msgstr "les lignes surlignées en jaune ont des valeurs différentes"
+
+msgid "You have read-only access. Contact an administrator to merge or delete duplicate records."
+msgstr "Vous avez un accès en lecture seule. Contactez un administrateur pour fusionner ou supprimer les enregistrements en doublon."
+
+msgid "Base record:"
+msgstr "Enregistrement de base :"
+
+msgid "The base record is kept; its ID survives. For differing fields, choose which value to use below."
+msgstr "L'enregistrement de base est conservé ; son ID survit. Pour les champs différents, choisissez la valeur à utiliser ci-dessous."
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "View"
+msgstr "Voir"
+
+msgid "Values differ"
+msgstr "Les valeurs diffèrent"
+
+msgid "empty"
+msgstr "vide"
+
+msgid "Financial Information (Management)"
+msgstr "Informations financières (Gestion)"
+
+msgid "Highlighted rows differ — select A or B for each field"
+msgstr "Les lignes surlignées diffèrent — sélectionnez A ou B pour chaque champ"
+
+msgid "Only Item A has financial data — carried over automatically"
+msgstr "Seul l'élément A a des données financières — reporté automatiquement"
+
+msgid "Only Item B has financial data — carried over automatically"
+msgstr "Seul l'élément B a des données financières — reporté automatiquement"
+
+msgid "Linked Records"
+msgstr "Enregistrements liés"
+
+msgid "Check records to include in the merged item; uncheck to exclude"
+msgstr "Cochez les enregistrements à inclure dans l'élément fusionné ; décochez pour exclure"
+
+msgid "record"
+msgid_plural "records"
+msgstr[0] "enregistrement"
+msgstr[1] "enregistrements"
+
+msgid "Check all"
+msgstr "Tout cocher"
+
+msgid "Uncheck all"
+msgstr "Tout décocher"
+
+msgid "Keep"
+msgstr "Conserver"
+
+msgid "From"
+msgstr "De"
+
+msgid "Record"
+msgstr "Enregistrement"
+
+msgid "Exists on both — kept once automatically"
+msgstr "Existe sur les deux — conservé une fois automatiquement"
+
+msgid "duplicate — kept once"
+msgstr "doublon — conservé une fois"
+
+msgid "Keep A, delete B"
+msgstr "Conserver A, supprimer B"
+
+msgid "Keep B, delete A"
+msgstr "Conserver B, supprimer A"
+
+msgid "Merge with selected values"
+msgstr "Fusionner avec les valeurs sélectionnées"
+
+msgid "Not a duplicate"
+msgstr "Pas un doublon"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Processing…"
+msgstr "Traitement en cours…"
+
+msgid "Done! Redirecting…"
+msgstr "Terminé ! Redirection…"
+
+msgid "An error occurred"
+msgstr "Une erreur s'est produite"
+
+msgid "Keep Item A (#%d) and delete Item B (#%d)?"
+msgstr "Conserver l'élément A (#%d) et supprimer l'élément B (#%d) ?"
+
+msgid "Keep Item B (#%d) and delete Item A (#%d)?"
+msgstr "Conserver l'élément B (#%d) et supprimer l'élément A (#%d) ?"
+
+msgid "Merge and keep Item %s (#%d) with the selected field values?"
+msgstr "Fusionner et conserver l'élément %s (#%d) avec les valeurs de champ sélectionnées ?"
+
+msgid "Mark this pair as not a duplicate? It will no longer appear in the list."
+msgstr "Marquer cette paire comme non-doublon ? Elle ne figurera plus dans la liste."
+
+msgid "Invalid parameters"
+msgstr "Paramètres invalides"
+
+msgid "One or both items not found"
+msgstr "Un ou les deux éléments introuvables"
+
+msgid "Duplicate Checker - Permissions"
+msgstr "Vérificateur de doublons - Permissions"
+
+msgid "Duplicate Checker plugin"
+msgstr "Plugin vérificateur de doublons"
+
+msgid "View duplicates"
+msgstr "Voir les doublons"
+
+msgid "Merge / Delete"
+msgstr "Fusionner / Supprimer"
+
+msgid "Invalid itemtype"
+msgstr "Type d'élément invalide"
+
+msgid "Permission denied"
+msgstr "Permission refusée"
+
+msgid "Missing winner or loser IDs"
+msgstr "IDs gagnant ou perdant manquants"
+
+msgid "Unknown action"
+msgstr "Action inconnue"
+
+msgid "Server error"
+msgstr "Erreur serveur"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Serial"
+msgstr "Numéro de série"
+
+msgid "Inventory Number"
+msgstr "Numéro d'inventaire"
+
+msgid "UUID"
+msgstr "UUID"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Location"
+msgstr "Emplacement"
+
+msgid "Manufacturer"
+msgstr "Fabricant"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Technician"
+msgstr "Technicien"
+
+msgid "Tech Group"
+msgstr "Groupe technique"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contact Number"
+msgstr "Numéro de contact"
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Date Created"
+msgstr "Date de création"
+
+msgid "Last Modified"
+msgstr "Dernière modification"
+
+msgid "Order Number"
+msgstr "Numéro de commande"
+
+msgid "Delivery Number"
+msgstr "Numéro de livraison"
+
+msgid "Immo. Number"
+msgstr "Numéro d'immo."
+
+msgid "Purchase Value"
+msgstr "Valeur d'achat"
+
+msgid "Purchase Date"
+msgstr "Date d'achat"
+
+msgid "Delivery Date"
+msgstr "Date de livraison"
+
+msgid "Startup Date"
+msgstr "Date de démarrage"
+
+msgid "Warranty Expiry"
+msgstr "Expiration de la garantie"
+
+msgid "Warranty Duration"
+msgstr "Durée de la garantie"
+
+msgid "Warranty Contact"
+msgstr "Contact de garantie"
+
+msgid "Supplier"
+msgstr "Fournisseur"
+
+msgid "Amortiz. Duration"
+msgstr "Durée d'amortissement"
+
+msgid "Amortiz. Coeff."
+msgstr "Coeff. d'amortissement"
+
+msgid "Decommission Date"
+msgstr "Date de mise au rebut"
+
+msgid "Tickets"
+msgstr "Tickets"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Contracts"
+msgstr "Contrats"
+
+msgid "Problems"
+msgstr "Problèmes"
+
+msgid "Changes"
+msgstr "Changements"
+
+msgid "Certificates"
+msgstr "Certificats"
+
+msgid "Domains"
+msgstr "Domaines"
+
+msgid "Appliances"
+msgstr "Appareils"
+
+msgid "Knowledge Base"
+msgstr "Base de connaissances"
+
+msgid "Software"
+msgstr "Logiciel"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Network Ports"
+msgstr "Ports réseau"
+
+msgid "Note: "
+msgstr "Note : "
+
+msgid "(empty)"
+msgstr "(vide)"
+
+msgid "Port: "
+msgstr "Port : "
+
+msgid "Record #"
+msgstr "Enregistrement #"
+
+msgid "Order: "
+msgstr "Commande : "
+
+msgid "Bought: "
+msgstr "Acheté : "
+
+msgid "Value: "
+msgstr "Valeur : "
+
+msgid "Warranty until: "
+msgstr "Garantie jusqu'à : "
+
+msgid "Record ID: "
+msgstr "ID d'enregistrement : "

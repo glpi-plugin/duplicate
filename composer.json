@@ -1,0 +1,14 @@
+{
+    "name": "glpi-project/duplicate",
+    "description": "Inventory Duplicate Checker plugin for GLPI",
+    "type": "glpi-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "GlpiPlugin\\Duplicate\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    }
+}

@@ -1,0 +1,395 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Inventory Duplicate Checker 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-07 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Inventory Duplicate Checker"
+msgstr "Inventory Duplicate Checker"
+
+msgid "Duplicate Checker"
+msgstr "Duplicate Checker"
+
+msgid "Detects duplicates by serial number, UUID, and name"
+msgstr "Detects duplicates by serial number, UUID, and name"
+
+msgid "Rescan"
+msgstr "Rescan"
+
+msgid "No duplicates detected"
+msgstr "No duplicates detected"
+
+msgid "all inventory items appear to be unique."
+msgstr "all inventory items appear to be unique."
+
+msgid "duplicate pair"
+msgid_plural "duplicate pairs"
+msgstr[0] "duplicate pair"
+msgstr[1] "duplicate pairs"
+
+msgid "found"
+msgstr "found"
+
+msgid "across"
+msgstr "across"
+
+msgid "asset type"
+msgid_plural "asset types"
+msgstr[0] "asset type"
+msgstr[1] "asset types"
+
+msgid "pair"
+msgid_plural "pairs"
+msgstr[0] "pair"
+msgstr[1] "pairs"
+
+msgid "Match"
+msgstr "Match"
+
+msgid "Match Value"
+msgstr "Match Value"
+
+msgid "Item A"
+msgstr "Item A"
+
+msgid "Item B"
+msgstr "Item B"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Compare"
+msgstr "Compare"
+
+msgid "Ignore"
+msgstr "Ignore"
+
+msgid "Mark as not a duplicate"
+msgstr "Mark as not a duplicate"
+
+msgid "Imported by GLPI Agent"
+msgstr "Imported by GLPI Agent"
+
+msgid "Showing %d–%d of %d pairs"
+msgstr "Showing %d–%d of %d pairs"
+
+msgid "Per page:"
+msgstr "Per page:"
+
+msgid "Failed to ignore pair"
+msgstr "Failed to ignore pair"
+
+msgid "Network error"
+msgstr "Network error"
+
+msgid "Back to list"
+msgstr "Back to list"
+
+msgid "Compare %s Duplicates"
+msgstr "Compare %s Duplicates"
+
+msgid "Match by"
+msgstr "Match by"
+
+msgid "rows highlighted in yellow have different values"
+msgstr "rows highlighted in yellow have different values"
+
+msgid "You have read-only access. Contact an administrator to merge or delete duplicate records."
+msgstr "You have read-only access. Contact an administrator to merge or delete duplicate records."
+
+msgid "Base record:"
+msgstr "Base record:"
+
+msgid "The base record is kept; its ID survives. For differing fields, choose which value to use below."
+msgstr "The base record is kept; its ID survives. For differing fields, choose which value to use below."
+
+msgid "Field"
+msgstr "Field"
+
+msgid "View"
+msgstr "View"
+
+msgid "Values differ"
+msgstr "Values differ"
+
+msgid "empty"
+msgstr "empty"
+
+msgid "Financial Information (Management)"
+msgstr "Financial Information (Management)"
+
+msgid "Highlighted rows differ — select A or B for each field"
+msgstr "Highlighted rows differ — select A or B for each field"
+
+msgid "Only Item A has financial data — carried over automatically"
+msgstr "Only Item A has financial data — carried over automatically"
+
+msgid "Only Item B has financial data — carried over automatically"
+msgstr "Only Item B has financial data — carried over automatically"
+
+msgid "Linked Records"
+msgstr "Linked Records"
+
+msgid "Check records to include in the merged item; uncheck to exclude"
+msgstr "Check records to include in the merged item; uncheck to exclude"
+
+msgid "record"
+msgid_plural "records"
+msgstr[0] "record"
+msgstr[1] "records"
+
+msgid "Check all"
+msgstr "Check all"
+
+msgid "Uncheck all"
+msgstr "Uncheck all"
+
+msgid "Keep"
+msgstr "Keep"
+
+msgid "From"
+msgstr "From"
+
+msgid "Record"
+msgstr "Record"
+
+msgid "Exists on both — kept once automatically"
+msgstr "Exists on both — kept once automatically"
+
+msgid "duplicate — kept once"
+msgstr "duplicate — kept once"
+
+msgid "Keep A, delete B"
+msgstr "Keep A, delete B"
+
+msgid "Keep B, delete A"
+msgstr "Keep B, delete A"
+
+msgid "Merge with selected values"
+msgstr "Merge with selected values"
+
+msgid "Not a duplicate"
+msgstr "Not a duplicate"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Processing…"
+msgstr "Processing…"
+
+msgid "Done! Redirecting…"
+msgstr "Done! Redirecting…"
+
+msgid "An error occurred"
+msgstr "An error occurred"
+
+msgid "Keep Item A (#%d) and delete Item B (#%d)?"
+msgstr "Keep Item A (#%d) and delete Item B (#%d)?"
+
+msgid "Keep Item B (#%d) and delete Item A (#%d)?"
+msgstr "Keep Item B (#%d) and delete Item A (#%d)?"
+
+msgid "Merge and keep Item %s (#%d) with the selected field values?"
+msgstr "Merge and keep Item %s (#%d) with the selected field values?"
+
+msgid "Mark this pair as not a duplicate? It will no longer appear in the list."
+msgstr "Mark this pair as not a duplicate? It will no longer appear in the list."
+
+msgid "Invalid parameters"
+msgstr "Invalid parameters"
+
+msgid "One or both items not found"
+msgstr "One or both items not found"
+
+msgid "Duplicate Checker - Permissions"
+msgstr "Duplicate Checker - Permissions"
+
+msgid "Duplicate Checker plugin"
+msgstr "Duplicate Checker plugin"
+
+msgid "View duplicates"
+msgstr "View duplicates"
+
+msgid "Merge / Delete"
+msgstr "Merge / Delete"
+
+msgid "Invalid itemtype"
+msgstr "Invalid itemtype"
+
+msgid "Permission denied"
+msgstr "Permission denied"
+
+msgid "Missing winner or loser IDs"
+msgstr "Missing winner or loser IDs"
+
+msgid "Unknown action"
+msgstr "Unknown action"
+
+msgid "Server error"
+msgstr "Server error"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Serial"
+msgstr "Serial"
+
+msgid "Inventory Number"
+msgstr "Inventory Number"
+
+msgid "UUID"
+msgstr "UUID"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Location"
+msgstr "Location"
+
+msgid "Manufacturer"
+msgstr "Manufacturer"
+
+msgid "User"
+msgstr "User"
+
+msgid "Technician"
+msgstr "Technician"
+
+msgid "Tech Group"
+msgstr "Tech Group"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Contact Number"
+msgstr "Contact Number"
+
+msgid "Comment"
+msgstr "Comment"
+
+msgid "Date Created"
+msgstr "Date Created"
+
+msgid "Last Modified"
+msgstr "Last Modified"
+
+msgid "Order Number"
+msgstr "Order Number"
+
+msgid "Delivery Number"
+msgstr "Delivery Number"
+
+msgid "Immo. Number"
+msgstr "Immo. Number"
+
+msgid "Purchase Value"
+msgstr "Purchase Value"
+
+msgid "Purchase Date"
+msgstr "Purchase Date"
+
+msgid "Delivery Date"
+msgstr "Delivery Date"
+
+msgid "Startup Date"
+msgstr "Startup Date"
+
+msgid "Warranty Expiry"
+msgstr "Warranty Expiry"
+
+msgid "Warranty Duration"
+msgstr "Warranty Duration"
+
+msgid "Warranty Contact"
+msgstr "Warranty Contact"
+
+msgid "Supplier"
+msgstr "Supplier"
+
+msgid "Amortiz. Duration"
+msgstr "Amortiz. Duration"
+
+msgid "Amortiz. Coeff."
+msgstr "Amortiz. Coeff."
+
+msgid "Decommission Date"
+msgstr "Decommission Date"
+
+msgid "Tickets"
+msgstr "Tickets"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Contracts"
+msgstr "Contracts"
+
+msgid "Problems"
+msgstr "Problems"
+
+msgid "Changes"
+msgstr "Changes"
+
+msgid "Certificates"
+msgstr "Certificates"
+
+msgid "Domains"
+msgstr "Domains"
+
+msgid "Appliances"
+msgstr "Appliances"
+
+msgid "Knowledge Base"
+msgstr "Knowledge Base"
+
+msgid "Software"
+msgstr "Software"
+
+msgid "History"
+msgstr "History"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Network Ports"
+msgstr "Network Ports"
+
+msgid "Note: "
+msgstr "Note: "
+
+msgid "(empty)"
+msgstr "(empty)"
+
+msgid "Port: "
+msgstr "Port: "
+
+msgid "Record #"
+msgstr "Record #"
+
+msgid "Order: "
+msgstr "Order: "
+
+msgid "Bought: "
+msgstr "Bought: "
+
+msgid "Value: "
+msgstr "Value: "
+
+msgid "Warranty until: "
+msgstr "Warranty until: "
+
+msgid "Record ID: "
+msgstr "Record ID: "
