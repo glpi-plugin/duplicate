@@ -98,6 +98,15 @@ Html::header(
 .dup-col-a { background: rgba(59,130,246,0.04); }
 .dup-col-b { background: rgba(16,185,129,0.04); }
 .dup-action-bar { position: sticky; bottom: 0; background: #fff; border-top: 1px solid #e5e7eb; padding: 12px 0; z-index: 10; }
+.dup-kept-label { font-size: 0.7em; }
+.dup-compare-table.winner-a th.dup-col-a,
+.dup-compare-table.winner-a td.dup-col-a { box-shadow: inset -2px 0 0 #3b82f6, inset 2px 0 0 #3b82f6; }
+.dup-compare-table.winner-a th.dup-col-a { box-shadow: inset -2px 0 0 #3b82f6, inset 2px 0 0 #3b82f6, inset 0 2px 0 #3b82f6; }
+.dup-compare-table.winner-a tbody tr:last-child td.dup-col-a { box-shadow: inset -2px 0 0 #3b82f6, inset 2px 0 0 #3b82f6, inset 0 -2px 0 #3b82f6; }
+.dup-compare-table.winner-b th.dup-col-b,
+.dup-compare-table.winner-b td.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981; }
+.dup-compare-table.winner-b th.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981, inset 0 2px 0 #10b981; }
+.dup-compare-table.winner-b tbody tr:last-child td.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981, inset 0 -2px 0 #10b981; }
 </style>
 
 <div class="container-fluid mt-3">
@@ -108,7 +117,7 @@ Html::header(
         </a>
         <div class="ms-1">
             <h2 class="mb-0"><?= sprintf(__('Compare %s Duplicates', 'duplicate'), htmlspecialchars($itemtype, ENT_QUOTES)) ?></h2>
-            <small class="text-muted"><?= __('Match by', 'duplicate') ?> <strong><?= htmlspecialchars(strtoupper($reason), ENT_QUOTES) ?></strong> — <?= __('rows highlighted in yellow have different values', 'duplicate') ?></small>
+            <medium class="text-muted"><?= __('Match by', 'duplicate') ?> <strong><?= htmlspecialchars(strtoupper($reason), ENT_QUOTES) ?></strong> — <?= __('rows highlighted in yellow have different values', 'duplicate') ?></medium>
         </div>
     </div>
 
@@ -140,7 +149,7 @@ Html::header(
                         <?php if ($agent_b): ?><?= $agent_icon ?><?php endif; ?>
                     </label>
                 </div>
-                <small class="text-muted ms-2"><?= __('The base record is kept; its ID survives. For differing fields, choose which value to use below.', 'duplicate') ?></small>
+                <medium class="text-muted ms-2"><?= __('The base record is kept; its ID survives. For differing fields, choose which value to use below.', 'duplicate') ?></medium>
             </div>
         </div>
     </div>
@@ -149,7 +158,7 @@ Html::header(
     <!-- Comparison table -->
     <div class="card mb-3">
         <div class="card-body p-0">
-            <table class="table table-bordered dup-compare-table mb-0">
+            <table class="table table-bordered dup-compare-table winner-a mb-0" id="dup-compare-table">
                 <thead class="table-light">
                     <tr>
                         <th class="field-label"><?= __('Field', 'duplicate') ?></th>
@@ -157,21 +166,31 @@ Html::header(
                             <span class="badge bg-primary dup-winner-badge me-1">A</span>
                             <?= $name_a ?>
                             <?php if ($agent_a): ?><?= $agent_icon ?><?php endif; ?>
-                            <small class="text-muted d-block fw-normal">ID: <?= $id_a ?> &mdash;
+                            <?php if ($can_edit): ?>
+                                <span id="dup-kept-badge-a" class="badge bg-primary ms-2 dup-kept-label">
+                                    <i class="ti ti-check"></i> <?= __('Kept', 'duplicate') ?>
+                                </span>
+                            <?php endif; ?>
+                            <medium class="text-muted d-block fw-normal">ID: <?= $id_a ?> &mdash;
                                 <a href="<?= htmlspecialchars(DuplicateChecker::getFrontUrl($itemtype, $id_a), ENT_QUOTES) ?>" target="_blank">
                                     <?= __('View', 'duplicate') ?> <i class="ti ti-external-link"></i>
                                 </a>
-                            </small>
+                            </medium>
                         </th>
                         <th class="dup-col-b">
                             <span class="badge bg-success dup-winner-badge me-1">B</span>
                             <?= $name_b ?>
                             <?php if ($agent_b): ?><?= $agent_icon ?><?php endif; ?>
-                            <small class="text-muted d-block fw-normal">ID: <?= $id_b ?> &mdash;
+                            <?php if ($can_edit): ?>
+                                <span id="dup-kept-badge-b" class="badge bg-success ms-2 dup-kept-label" style="display:none">
+                                    <i class="ti ti-check"></i> <?= __('Kept', 'duplicate') ?>
+                                </span>
+                            <?php endif; ?>
+                            <miedum class="text-muted d-block fw-normal">ID: <?= $id_b ?> &mdash;
                                 <a href="<?= htmlspecialchars(DuplicateChecker::getFrontUrl($itemtype, $id_b), ENT_QUOTES) ?>" target="_blank">
                                     <?= __('View', 'duplicate') ?> <i class="ti ti-external-link"></i>
                                 </a>
-                            </small>
+                            </medium>
                         </th>
                     </tr>
                 </thead>
@@ -346,12 +365,12 @@ Html::header(
     <!-- Per-record linked data sections -->
     <?php if (!empty($linked_tab_data)): ?>
     <div class="mb-1">
-        <h6 class="text-muted mb-2 px-1">
+        <h4 class="text-muted mb-2 px-1">
             <i class="ti ti-link me-1"></i><?= __('Linked Records', 'duplicate') ?>
             <?php if ($can_edit): ?>
                 <small class="fw-normal ms-2"><?= __('Check records to include in the merged item; uncheck to exclude', 'duplicate') ?></small>
             <?php endif; ?>
-        </h6>
+        </h4>
     </div>
 
     <?php foreach ($linked_tab_data as $lnk_table => $lnk_section):
@@ -481,17 +500,32 @@ Html::header(
     var csrfToken = <?= json_encode($csrf_token) ?>;
     var dup_i18n  = <?= json_encode($js_i18n, JSON_HEX_TAG) ?>;
 
+    function updateWinnerVisual(side) {
+        var badgeA = document.getElementById('dup-kept-badge-a');
+        var badgeB = document.getElementById('dup-kept-badge-b');
+        var table  = document.getElementById('dup-compare-table');
+        if (badgeA) badgeA.style.display = side === 'a' ? '' : 'none';
+        if (badgeB) badgeB.style.display = side === 'b' ? '' : 'none';
+        if (table) {
+            table.classList.remove('winner-a', 'winner-b');
+            table.classList.add(side === 'a' ? 'winner-a' : 'winner-b');
+        }
+    }
+
     // When winner radio changes, auto-select that side for all differing field rows
     // including infocom diff rows (per-record checkboxes are independent of winner choice)
     document.querySelectorAll('input[name="winner_radio"]').forEach(function(radio) {
         radio.addEventListener('change', function() {
             var side = this.value;
+            updateWinnerVisual(side);
             document.querySelectorAll('tr[data-has-diff="1"], tr.dup-infocom-diff-row').forEach(function(row) {
                 var sideRadio = row.querySelector('input[data-side="' + side + '"]');
                 if (sideRadio) sideRadio.checked = true;
             });
         });
     });
+    // Initialise visual for default winner (A)
+    updateWinnerVisual('a');
 
     // Check-all / Uncheck-all buttons for linked-record sections
     document.querySelectorAll('.dup-check-all').forEach(function(btn) {

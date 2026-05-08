@@ -94,7 +94,7 @@ Html::header(
         <i class="ti ti-copy-off fs-2 text-muted"></i>
         <div>
             <h2 class="mb-0"><?= __('Inventory Duplicate Checker', 'duplicate') ?></h2>
-            <small class="text-muted"><?= __('Detects duplicates by serial number, UUID, and name', 'duplicate') ?></small>
+            <medium class="text-muted"><?= __('Detects duplicates by serial number, UUID, and name', 'duplicate') ?></medium>
         </div>
         <div class="ms-auto">
             <a href="<?= htmlspecialchars(Plugin::getWebDir('duplicate') . '/front/index.php', ENT_QUOTES) ?>" class="btn btn-outline-secondary btn-sm">
