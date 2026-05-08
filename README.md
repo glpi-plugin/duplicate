@@ -19,7 +19,7 @@ A powerful GLPI plugin for detecting and managing duplicate inventory items acro
 1. Download or clone the plugin into your GLPI plugins directory:
    ```bash
    cd /path/to/glpi/plugins
-   git clone https://github.com/your-org/duplicate.git duplicate
+   https://github.com/glpi-plugin/duplicate.git
    ```
 
 2. Go to **Setup → Plugins** in GLPI and install the **Duplicate Checker** plugin
