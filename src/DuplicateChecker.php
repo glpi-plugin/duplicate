@@ -345,6 +345,11 @@ class DuplicateChecker
     // Linked-table config & discovery
     // -------------------------------------------------------------------------
 
+    public static function getNotepadTable(): string
+    {
+        return class_exists(\Notepad::class) ? \Notepad::getTable() : 'glpi_notepad';
+    }
+
     /**
      * Full config for all GLPI core linked tables.
      *
@@ -426,7 +431,7 @@ class DuplicateChecker
             ],
             'repoint_all' => [
                 'glpi_logs'         => ['tab_label' => 'History',       'silent' => true],
-                'glpi_notepad'      => ['tab_label' => 'Notes',         'silent' => false],
+                self::getNotepadTable() => ['tab_label' => 'Notes',         'silent' => false],
                 'glpi_networkports' => ['tab_label' => 'Network Ports', 'silent' => false],
             ],
             'one_per_item' => [
@@ -711,7 +716,7 @@ class DuplicateChecker
     private static function buildRepointLabel(string $table, array $row): string
     {
         switch ($table) {
-            case 'glpi_notepad':
+            case self::getNotepadTable():
                 $content = strip_tags(trim((string) ($row['content'] ?? '')));
                 return 'Note: ' . (strlen($content) > 80 ? substr($content, 0, 80) . '…' : ($content ?: ''));
             case 'glpi_networkports':

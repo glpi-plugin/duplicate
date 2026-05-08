@@ -59,13 +59,12 @@ $infocom_fields = DuplicateChecker::getInfocomsFields();
 $show_infocoms  = $can_edit && ($infocom_a || $infocom_b);
 
 // Notes only — all other tab sections are silently auto-merged in the backend
-$linked_tab_data = $can_edit
-    ? array_filter(
-        DuplicateChecker::getLinkedTabData($itemtype, $id_a, $id_b),
-        fn($k) => $k === 'glpi_notepad',
-        ARRAY_FILTER_USE_KEY
-      )
-    : [];
+$notepad_table   = DuplicateChecker::getNotepadTable();
+$linked_tab_data = array_filter(
+    DuplicateChecker::getLinkedTabData($itemtype, $id_a, $id_b),
+    fn($k) => $k === $notepad_table,
+    ARRAY_FILTER_USE_KEY
+);
 $index_url   = Plugin::getWebDir('duplicate') . '/front/index.php';
 $ajax_url    = Plugin::getWebDir('duplicate') . '/ajax/merge.php';
 $csrf_token  = Session::getNewCSRFToken();
@@ -345,22 +344,25 @@ Html::header(
     <?php endif; ?>
 
     <!-- Per-record linked data sections -->
-    <?php if ($can_edit && !empty($linked_tab_data)): ?>
+    <?php if (!empty($linked_tab_data)): ?>
     <div class="mb-1">
         <h6 class="text-muted mb-2 px-1">
             <i class="ti ti-link me-1"></i><?= __('Linked Records', 'duplicate') ?>
-            <small class="fw-normal ms-2"><?= __('Check records to include in the merged item; uncheck to exclude', 'duplicate') ?></small>
+            <?php if ($can_edit): ?>
+                <small class="fw-normal ms-2"><?= __('Check records to include in the merged item; uncheck to exclude', 'duplicate') ?></small>
+            <?php endif; ?>
         </h6>
     </div>
 
     <?php foreach ($linked_tab_data as $lnk_table => $lnk_section):
-        $row_count = count($lnk_section['rows']);
+        $row_count  = count($lnk_section['rows']);
         $safe_table = htmlspecialchars($lnk_table, ENT_QUOTES);
     ?>
     <div class="card mb-3 dup-linked-section" data-table="<?= $safe_table ?>">
         <div class="card-header d-flex align-items-center gap-2">
             <strong><?= htmlspecialchars($lnk_section['label'], ENT_QUOTES) ?></strong>
             <span class="badge bg-secondary ms-1"><?= $row_count ?> <?= _n('record', 'records', $row_count, 'duplicate') ?></span>
+            <?php if ($can_edit): ?>
             <div class="ms-auto d-flex gap-2">
                 <button type="button" class="btn btn-outline-secondary btn-sm dup-check-all" data-table="<?= $safe_table ?>">
                     <?= __('Check all', 'duplicate') ?>
@@ -369,23 +371,25 @@ Html::header(
                     <?= __('Uncheck all', 'duplicate') ?>
                 </button>
             </div>
+            <?php endif; ?>
         </div>
         <div class="card-body p-0">
             <table class="table table-bordered table-sm mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th style="width:44px" class="text-center"><?= __('Keep', 'duplicate') ?></th>
+                        <?php if ($can_edit): ?><th style="width:44px" class="text-center"><?= __('Keep', 'duplicate') ?></th><?php endif; ?>
                         <th style="width:56px" class="text-center"><?= __('From', 'duplicate') ?></th>
                         <th><?= __('Record', 'duplicate') ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($lnk_section['rows'] as $lnk_row):
-                        $origin     = $lnk_row['origin'];
-                        $row_class  = $origin === 'a' ? 'dup-col-a' : ($origin === 'b' ? 'dup-col-b' : '');
-                        $lnk_label  = htmlspecialchars($lnk_row['label'], ENT_QUOTES);
+                        $origin    = $lnk_row['origin'];
+                        $row_class = $origin === 'a' ? 'dup-col-a' : ($origin === 'b' ? 'dup-col-b' : '');
+                        $lnk_label = htmlspecialchars($lnk_row['label'], ENT_QUOTES);
                     ?>
                     <tr class="<?= $row_class ?>">
+                        <?php if ($can_edit): ?>
                         <td class="text-center align-middle">
                             <?php if ($origin === 'both'): ?>
                                 <span class="text-muted" title="<?= __('Exists on both — kept once automatically', 'duplicate') ?>">─</span>
@@ -397,6 +401,7 @@ Html::header(
                                        checked>
                             <?php endif; ?>
                         </td>
+                        <?php endif; ?>
                         <td class="text-center align-middle">
                             <?php if ($origin === 'a'): ?>
                                 <span class="badge bg-primary dup-winner-badge">A</span>
