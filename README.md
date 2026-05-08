@@ -49,14 +49,17 @@ A powerful GLPI plugin for detecting and managing duplicate inventory items acro
 2. Select the **base record** (the one to keep):
    - All other items will be deleted
    - The base record ID survives
+   - The chosen column has a **blue or green outline** showing which item will be kept
+   - A **"✓ Kept"** badge appears in the header of the winner column
 3. For fields with different values:
    - **Highlighted rows** (yellow) show mismatches
    - Select which value to keep for each field
 4. Financial data (Infocoms):
    - Review procurement, warranty, and value information
    - Select values for each financial field
-5. Linked records (Tickets, Documents, etc.):
-   - Choose which records to keep from Item A or B
+5. Linked records (Notes, Tickets, Documents, etc.):
+   - **Notes**: See all notes from both items; check which ones to keep
+   - **Other records**: Choose which records to keep from Item A or B
    - Check "Check all" to keep all records from one side
 6. Click **Merge with selected values** to execute the merge
 
@@ -162,6 +165,11 @@ For issues or questions:
 - Check GLPI logs: `var/log/glpi.log`
 
 ## Changelog
+
+### v1.1.0
+- **Notes visibility fix**: Notes tab now appears for all users with read access, not just admin
+- **Visual winner indicator**: Comparison table winner column now has an outline border and "✓ Kept" badge
+- **Version-safe notepad table**: Uses GLPI's Notepad::getTable() instead of hardcoded table name
 
 ### v1.0.0
 - Initial release
