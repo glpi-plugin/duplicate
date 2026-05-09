@@ -113,8 +113,41 @@ msgstr "You have read-only access. Contact an administrator to merge or delete d
 msgid "Base record:"
 msgstr "Base record:"
 
+msgid "Base record"
+msgstr "Base record"
+
 msgid "The base record is kept; its ID survives. For differing fields, choose which value to use below."
 msgstr "The base record is kept; its ID survives. For differing fields, choose which value to use below."
+
+msgid "How to resolve this duplicate"
+msgstr "How to resolve this duplicate"
+
+msgid "Step 1 — Choose a base record"
+msgstr "Step 1 — Choose a base record"
+
+msgid "Step 2 — Pick values for differing fields"
+msgstr "Step 2 — Pick values for differing fields"
+
+msgid "Step 3 — Act"
+msgstr "Step 3 — Act"
+
+msgid "Use the \"Base record\" radio button in each column header to pick which record's ID is preserved after the merge. The other record will be deleted."
+msgstr "Use the \"Base record\" radio button in each column header to pick which record's ID is preserved after the merge. The other record will be deleted."
+
+msgid "Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record."
+msgstr "Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record."
+
+msgid "Keeps record A exactly as-is and permanently deletes record B. No field choices are applied."
+msgstr "Keeps record A exactly as-is and permanently deletes record B. No field choices are applied."
+
+msgid "Keeps record B exactly as-is and permanently deletes record A. No field choices are applied."
+msgstr "Keeps record B exactly as-is and permanently deletes record A. No field choices are applied."
+
+msgid "Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record."
+msgstr "Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record."
+
+msgid "Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list."
+msgstr "Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list."
 
 msgid "Field"
 msgstr "Field"
@@ -261,6 +294,12 @@ msgstr "Location"
 
 msgid "Manufacturer"
 msgstr "Manufacturer"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Model"
+msgstr "Model"
 
 msgid "User"
 msgstr "User"

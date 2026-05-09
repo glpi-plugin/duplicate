@@ -112,8 +112,41 @@ msgstr "Vous avez un accès en lecture seule. Contactez un administrateur pour f
 msgid "Base record:"
 msgstr "Enregistrement de base :"
 
+msgid "Base record"
+msgstr "Enregistrement de base"
+
 msgid "The base record is kept; its ID survives. For differing fields, choose which value to use below."
 msgstr "L'enregistrement de base est conservé ; son ID survit. Pour les champs différents, choisissez la valeur à utiliser ci-dessous."
+
+msgid "How to resolve this duplicate"
+msgstr "Comment résoudre ce doublon"
+
+msgid "Step 1 — Choose a base record"
+msgstr "Étape 1 — Choisir un enregistrement de base"
+
+msgid "Step 2 — Pick values for differing fields"
+msgstr "Étape 2 — Choisir les valeurs pour les champs différents"
+
+msgid "Step 3 — Act"
+msgstr "Étape 3 — Agir"
+
+msgid "Use the \"Base record\" radio button in each column header to pick which record's ID is preserved after the merge. The other record will be deleted."
+msgstr "Utilisez le bouton radio « Enregistrement de base » dans chaque en-tête de colonne pour choisir l'ID conservé après la fusion. L'autre enregistrement sera supprimé."
+
+msgid "Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record."
+msgstr "Les lignes surlignées en jaune ont des valeurs différentes entre A et B. Sélectionnez un bouton radio sur cette ligne pour choisir la valeur à conserver sur l'enregistrement de base."
+
+msgid "Keeps record A exactly as-is and permanently deletes record B. No field choices are applied."
+msgstr "Conserve l'enregistrement A tel quel et supprime définitivement l'enregistrement B. Aucun choix de champ n'est appliqué."
+
+msgid "Keeps record B exactly as-is and permanently deletes record A. No field choices are applied."
+msgstr "Conserve l'enregistrement B tel quel et supprime définitivement l'enregistrement A. Aucun choix de champ n'est appliqué."
+
+msgid "Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record."
+msgstr "Enregistre vos choix par champ sur l'enregistrement de base, transfère les enregistrements liés depuis l'enregistrement supprimé, puis supprime l'autre enregistrement."
+
+msgid "Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list."
+msgstr "Ignore cette paire sans effectuer de modification. La paire n'apparaîtra plus dans la liste des doublons."
 
 msgid "Field"
 msgstr "Champ"
@@ -260,6 +293,12 @@ msgstr "Emplacement"
 
 msgid "Manufacturer"
 msgstr "Fabricant"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Model"
+msgstr "Modèle"
 
 msgid "User"
 msgstr "Utilisateur"

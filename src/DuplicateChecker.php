@@ -25,26 +25,58 @@ class DuplicateChecker
     public static function getComparableFields(string $itemtype): array
     {
         $fields = [
-            ['field' => 'name',             'label' => 'Name',             'type' => 'text'],
-            ['field' => 'serial',           'label' => 'Serial',           'type' => 'text'],
-            ['field' => 'otherserial',      'label' => 'Inventory Number', 'type' => 'text'],
-            ['field' => 'states_id',        'label' => 'Status',           'type' => 'fk', 'fk_table' => 'glpi_states'],
-            ['field' => 'locations_id',     'label' => 'Location',         'type' => 'fk', 'fk_table' => 'glpi_locations'],
-            ['field' => 'manufacturers_id', 'label' => 'Manufacturer',     'type' => 'fk', 'fk_table' => 'glpi_manufacturers'],
-            ['field' => 'users_id',         'label' => 'User',             'type' => 'fk', 'fk_table' => 'glpi_users'],
-            ['field' => 'users_id_tech',    'label' => 'Technician',       'type' => 'fk', 'fk_table' => 'glpi_users'],
-            ['field' => 'groups_id_tech',   'label' => 'Tech Group',       'type' => 'fk', 'fk_table' => 'glpi_groups'],
-            ['field' => 'contact',          'label' => 'Contact',          'type' => 'text'],
-            ['field' => 'contact_num',      'label' => 'Contact Number',   'type' => 'text'],
-            ['field' => 'comment',          'label' => 'Comment',          'type' => 'text'],
-            ['field' => 'date_creation',    'label' => 'Date Created',     'type' => 'readonly'],
-            ['field' => 'date_mod',         'label' => 'Last Modified',    'type' => 'readonly'],
+            ['field' => 'name',             'label' => __('Name',             'duplicate'), 'type' => 'text'],
+            ['field' => 'serial',           'label' => __('Serial',           'duplicate'), 'type' => 'text'],
+            ['field' => 'otherserial',      'label' => __('Inventory Number', 'duplicate'), 'type' => 'text'],
+            ['field' => 'states_id',        'label' => __('Status',           'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_states'],
+            ['field' => 'locations_id',     'label' => __('Location',         'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_locations'],
+            ['field' => 'manufacturers_id', 'label' => __('Manufacturer',     'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_manufacturers'],
+            ['field' => 'users_id',         'label' => __('User',             'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_users'],
+            ['field' => 'users_id_tech',    'label' => __('Technician',       'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_users'],
+            ['field' => 'groups_id_tech',   'label' => __('Tech Group',       'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_groups'],
+            ['field' => 'contact',          'label' => __('Contact',          'duplicate'), 'type' => 'text'],
+            ['field' => 'contact_num',      'label' => __('Contact Number',   'duplicate'), 'type' => 'text'],
+            ['field' => 'comment',          'label' => __('Comment',          'duplicate'), 'type' => 'text'],
+            ['field' => 'date_creation',    'label' => __('Date Created',     'duplicate'), 'type' => 'readonly'],
+            ['field' => 'date_mod',         'label' => __('Last Modified',    'duplicate'), 'type' => 'readonly'],
         ];
+
+        $typeSpecific = match ($itemtype) {
+            'Computer'         => [
+                ['field' => 'computertypes_id',         'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_computertypes'],
+                ['field' => 'computermodels_id',        'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_computermodels'],
+            ],
+            'Monitor'          => [
+                ['field' => 'monitortypes_id',          'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_monitortypes'],
+                ['field' => 'monitormodels_id',         'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_monitormodels'],
+            ],
+            'Phone'            => [
+                ['field' => 'phonetypes_id',            'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_phonetypes'],
+                ['field' => 'phonemodels_id',           'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_phonemodels'],
+            ],
+            'Printer'          => [
+                ['field' => 'printertypes_id',          'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_printertypes'],
+                ['field' => 'printermodels_id',         'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_printermodels'],
+            ],
+            'NetworkEquipment' => [
+                ['field' => 'networkequipmenttypes_id',  'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_networkequipmenttypes'],
+                ['field' => 'networkequipmentmodels_id', 'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_networkequipmentmodels'],
+            ],
+            'Peripheral'       => [
+                ['field' => 'peripheraltypes_id',       'label' => __('Type',  'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_peripheraltypes'],
+                ['field' => 'peripheralmodels_id',      'label' => __('Model', 'duplicate'), 'type' => 'fk', 'fk_table' => 'glpi_peripheralmodels'],
+            ],
+            default => [],
+        };
+
+        // Insert type+model after manufacturers_id
+        $insertAt = array_search('manufacturers_id', array_column($fields, 'field')) + 1;
+        array_splice($fields, $insertAt, 0, $typeSpecific);
 
         $types = self::getAssetTypes();
         if (isset($types[$itemtype]) && $types[$itemtype]['has_uuid']) {
             array_splice($fields, 2, 0, [
-                ['field' => 'uuid', 'label' => 'UUID', 'type' => 'text'],
+                ['field' => 'uuid', 'label' => __('UUID', 'duplicate'), 'type' => 'text'],
             ]);
         }
 

@@ -127,32 +127,36 @@ Html::header(
         </div>
     <?php endif; ?>
 
-    <!-- Winner selection -->
+    <!-- How-to instructions -->
     <?php if ($can_edit): ?>
-    <div class="card mb-3">
-        <div class="card-body py-2">
-            <div class="d-flex align-items-center gap-3 flex-wrap">
-                <strong class="text-muted me-1"><?= __('Base record:', 'duplicate') ?></strong>
-                <div class="form-check form-check-inline mb-0">
-                    <input class="form-check-input" type="radio" name="winner_radio" id="winner_a" value="a" checked>
-                    <label class="form-check-label" for="winner_a">
-                        <span class="badge bg-primary dup-winner-badge">A</span>
-                        <?= $name_a ?> <small class="text-muted">#<?= $id_a ?></small>
-                        <?php if ($agent_a): ?><?= $agent_icon ?><?php endif; ?>
-                    </label>
+    <details class="mb-3">
+        <summary class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1">
+            <i class="ti ti-help"></i> <?= __('How to resolve this duplicate', 'duplicate') ?>
+        </summary>
+        <div class="card border mt-2">
+            <div class="card-body py-3">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 1 — Choose a base record', 'duplicate') ?></h4>
+                        <p class="mb-0 text-muted small"><?= __('Use the "Base record" radio button in each column header to pick which record\'s ID is preserved after the merge. The other record will be deleted.', 'duplicate') ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 2 — Pick values for differing fields', 'duplicate') ?></h4>
+                        <p class="mb-0 text-muted small"><?= __('Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record.', 'duplicate') ?></p>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 3 — Act', 'duplicate') ?></h4>
+                        <ul class="mb-0 small text-muted ps-3">
+                            <li><strong><?= __('Keep A, delete B', 'duplicate') ?></strong> — <?= __('Keeps record A exactly as-is and permanently deletes record B. No field choices are applied.', 'duplicate') ?></li>
+                            <li><strong><?= __('Keep B, delete A', 'duplicate') ?></strong> — <?= __('Keeps record B exactly as-is and permanently deletes record A. No field choices are applied.', 'duplicate') ?></li>
+                            <li><strong><?= __('Merge with selected values', 'duplicate') ?></strong> — <?= __('Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record.', 'duplicate') ?></li>
+                            <li><strong><?= __('Not a duplicate', 'duplicate') ?></strong> — <?= __('Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list.', 'duplicate') ?></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline mb-0">
-                    <input class="form-check-input" type="radio" name="winner_radio" id="winner_b" value="b">
-                    <label class="form-check-label" for="winner_b">
-                        <span class="badge bg-success dup-winner-badge">B</span>
-                        <?= $name_b ?> <small class="text-muted">#<?= $id_b ?></small>
-                        <?php if ($agent_b): ?><?= $agent_icon ?><?php endif; ?>
-                    </label>
-                </div>
-                <medium class="text-muted ms-2"><?= __('The base record is kept; its ID survives. For differing fields, choose which value to use below.', 'duplicate') ?></medium>
             </div>
         </div>
-    </div>
+    </details>
     <?php endif; ?>
 
     <!-- Comparison table -->
@@ -163,6 +167,12 @@ Html::header(
                     <tr>
                         <th class="field-label"><?= __('Field', 'duplicate') ?></th>
                         <th class="dup-col-a">
+                            <?php if ($can_edit): ?>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" name="winner_radio" id="winner_a" value="a" checked>
+                                <label class="form-check-label" for="winner_a"><small class="text-muted"><?= __('Base record', 'duplicate') ?></small></label>
+                            </div>
+                            <?php endif; ?>
                             <span class="badge bg-primary dup-winner-badge me-1">A</span>
                             <?= $name_a ?>
                             <?php if ($agent_a): ?><?= $agent_icon ?><?php endif; ?>
@@ -178,6 +188,12 @@ Html::header(
                             </medium>
                         </th>
                         <th class="dup-col-b">
+                            <?php if ($can_edit): ?>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" name="winner_radio" id="winner_b" value="b">
+                                <label class="form-check-label" for="winner_b"><small class="text-muted"><?= __('Base record', 'duplicate') ?></small></label>
+                            </div>
+                            <?php endif; ?>
                             <span class="badge bg-success dup-winner-badge me-1">B</span>
                             <?= $name_b ?>
                             <?php if ($agent_b): ?><?= $agent_icon ?><?php endif; ?>
