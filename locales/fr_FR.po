@@ -23,7 +23,7 @@ msgid "Duplicate Checker"
 msgstr "Vérificateur de doublons"
 
 msgid "Detects duplicates by serial number, UUID, and name"
-msgstr "Détecte les doublons par numéro de série, UUID et nom"
+msgstr "Détecte les doublons par numéro de série, UUID, numéro d'inventaire et nom"
 
 msgid "Rescan"
 msgstr "Relancer le scan"
@@ -116,7 +116,7 @@ msgid "Base record"
 msgstr "Enregistrement de base"
 
 msgid "The base record is kept; its ID survives. For differing fields, choose which value to use below."
-msgstr "L'enregistrement de base est conservé ; son ID survit. Pour les champs différents, choisissez la valeur à utiliser ci-dessous."
+msgstr "L'enregistrement de base est conservé ; son ID survit. Pour les champs différents, choisissez la valeur qui sera conservé."
 
 msgid "How to resolve this duplicate"
 msgstr "Comment résoudre ce doublon"
@@ -128,7 +128,7 @@ msgid "Step 2 — Pick values for differing fields"
 msgstr "Étape 2 — Choisir les valeurs pour les champs différents"
 
 msgid "Step 3 — Act"
-msgstr "Étape 3 — Agir"
+msgstr "Étape 3 — Résoudre les doublons"
 
 msgid "Use the \"Base record\" radio button in each column header to pick which record's ID is preserved after the merge. The other record will be deleted."
 msgstr "Utilisez le bouton radio « Enregistrement de base » dans chaque en-tête de colonne pour choisir l'ID conservé après la fusion. L'autre enregistrement sera supprimé."
