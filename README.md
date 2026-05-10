@@ -53,7 +53,7 @@ A powerful GLPI plugin for detecting and managing duplicate inventory items acro
    - A **"✓ Kept"** badge appears in the header of the winner column
 3. For fields with different values:
    - **Highlighted rows** (yellow) show mismatches
-   - Select which value to keep for each field
+   - Click anywhere in a column cell to select that side's value, or click the radio button directly
 4. Financial data (Infocoms):
    - Review procurement, warranty, and value information
    - Select values for each financial field
@@ -165,6 +165,10 @@ For issues or questions:
 - Check GLPI logs: `var/log/glpi.log`
 
 ## Changelog
+
+### v1.2.0
+- **Clickable diff rows**: Click anywhere in a value cell to select that side — no need to aim at the radio button
+- **Instructions modal**: "How to resolve this duplicate" is now a modal dialog instead of an inline collapsible
 
 ### v1.1.0
 - **Notes visibility fix**: Notes tab now appears for all users with read access, not just admin
