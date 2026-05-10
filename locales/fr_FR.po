@@ -130,8 +130,8 @@ msgstr "Étape 2 — Choisir les valeurs pour les champs différents"
 msgid "Step 3 — Act"
 msgstr "Étape 3 — Résoudre les doublons"
 
-msgid "Use the \"Base record\" radio button in each column header to pick which record's ID is preserved after the merge. The other record will be deleted."
-msgstr "Utilisez le bouton radio « Enregistrement de base » dans chaque en-tête de colonne pour choisir l'ID conservé après la fusion. L'autre enregistrement sera supprimé."
+msgid "Click a column header to pick which record's ID is preserved after the merge. The other record will be deleted."
+msgstr "Cliquez sur l'en-tête de colonne pour choisir l'ID conservé après la fusion. L'autre enregistrement sera supprimé."
 
 msgid "Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record."
 msgstr "Les lignes surlignées en jaune ont des valeurs différentes entre A et B. Sélectionnez un bouton radio sur cette ligne pour choisir la valeur à conserver sur l'enregistrement de base."

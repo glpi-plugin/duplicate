@@ -86,6 +86,7 @@ Html::header(
 .dup-badge-name        { background: #6b7280; color: #fff; }
 .dup-itemtype-card { margin-bottom: 1.5rem; }
 .dup-ignore-form  { display: inline; }
+.dup-row-link { cursor: pointer; }
 </style>
 
 <div class="container-fluid mt-3">
@@ -161,7 +162,7 @@ Html::header(
                                     . '&id_b=' . $id_b
                                     . '&reason=' . urlencode($reason);
                             ?>
-                            <tr>
+                            <tr class="dup-row-link" data-href="<?= htmlspecialchars($compare_href, ENT_QUOTES) ?>">
                                 <td>
                                     <span class="badge <?= $badge_class ?>"><?= htmlspecialchars(strtoupper($reason), ENT_QUOTES) ?></span>
                                 </td>
@@ -278,6 +279,13 @@ $js_i18n = [
 ?>
 <script>
 const dup_i18n = <?= json_encode($js_i18n, JSON_HEX_TAG) ?>;
+
+document.querySelectorAll('.dup-row-link').forEach(function(row) {
+    row.addEventListener('click', function(e) {
+        if (e.target.closest('a, button')) return;
+        window.location.href = row.dataset.href;
+    });
+});
 
 document.querySelectorAll('.dup-ignore-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {

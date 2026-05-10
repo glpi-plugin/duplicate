@@ -107,6 +107,12 @@ Html::header(
 .dup-compare-table.winner-b td.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981; }
 .dup-compare-table.winner-b th.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981, inset 0 2px 0 #10b981; }
 .dup-compare-table.winner-b tbody tr:last-child td.dup-col-b { box-shadow: inset -2px 0 0 #10b981, inset 2px 0 0 #10b981, inset 0 -2px 0 #10b981; }
+th.dup-winner-header { cursor: pointer; user-select: none; }
+th.dup-winner-header:hover { filter: brightness(0.96); }
+tr[data-has-diff="1"] td.dup-col-a:hover,
+tr.dup-infocom-diff-row td.dup-col-a:hover { background: rgba(59,130,246,0.13); cursor: pointer; }
+tr[data-has-diff="1"] td.dup-col-b:hover,
+tr.dup-infocom-diff-row td.dup-col-b:hover { background: rgba(16,185,129,0.13); cursor: pointer; }
 </style>
 
 <div class="container-fluid mt-3">
@@ -129,34 +135,10 @@ Html::header(
 
     <!-- How-to instructions -->
     <?php if ($can_edit): ?>
-    <details class="mb-3">
-        <summary class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1">
-            <i class="ti ti-help"></i> <?= __('How to resolve this duplicate', 'duplicate') ?>
-        </summary>
-        <div class="card border mt-2">
-            <div class="card-body py-3">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <h4 class="fw-semibold mb-2"><?= __('Step 1 — Choose a base record', 'duplicate') ?></h4>
-                        <p class="mb-0 text-muted small"><?= __('Use the "Base record" radio button in each column header to pick which record\'s ID is preserved after the merge. The other record will be deleted.', 'duplicate') ?></p>
-                    </div>
-                    <div class="col-md-6">
-                        <h4 class="fw-semibold mb-2"><?= __('Step 2 — Pick values for differing fields', 'duplicate') ?></h4>
-                        <p class="mb-0 text-muted small"><?= __('Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record.', 'duplicate') ?></p>
-                    </div>
-                    <div class="col-12">
-                        <h4 class="fw-semibold mb-2"><?= __('Step 3 — Act', 'duplicate') ?></h4>
-                        <ul class="mb-0 small text-muted ps-3">
-                            <li><strong><?= __('Keep A, delete B', 'duplicate') ?></strong> — <?= __('Keeps record A exactly as-is and permanently deletes record B. No field choices are applied.', 'duplicate') ?></li>
-                            <li><strong><?= __('Keep B, delete A', 'duplicate') ?></strong> — <?= __('Keeps record B exactly as-is and permanently deletes record A. No field choices are applied.', 'duplicate') ?></li>
-                            <li><strong><?= __('Merge with selected values', 'duplicate') ?></strong> — <?= __('Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record.', 'duplicate') ?></li>
-                            <li><strong><?= __('Not a duplicate', 'duplicate') ?></strong> — <?= __('Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list.', 'duplicate') ?></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </details>
+    <button type="button" class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1 mb-3"
+            data-bs-toggle="modal" data-bs-target="#instructionsModal">
+        <i class="ti ti-help"></i> <?= __('How to resolve this duplicate', 'duplicate') ?>
+    </button>
     <?php endif; ?>
 
     <!-- Comparison table -->
@@ -166,13 +148,7 @@ Html::header(
                 <thead class="table-light">
                     <tr>
                         <th class="field-label"><?= __('Field', 'duplicate') ?></th>
-                        <th class="dup-col-a">
-                            <?php if ($can_edit): ?>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="radio" name="winner_radio" id="winner_a" value="a" checked>
-                                <label class="form-check-label" for="winner_a"><small class="text-muted"><?= __('Base record', 'duplicate') ?></small></label>
-                            </div>
-                            <?php endif; ?>
+                        <th class="dup-col-a<?= $can_edit ? ' dup-winner-header' : '' ?>" <?= $can_edit ? 'data-side="a"' : '' ?>>
                             <span class="badge bg-primary dup-winner-badge me-1">A</span>
                             <?= $name_a ?>
                             <?php if ($agent_a): ?><?= $agent_icon ?><?php endif; ?>
@@ -187,13 +163,7 @@ Html::header(
                                 </a>
                             </medium>
                         </th>
-                        <th class="dup-col-b">
-                            <?php if ($can_edit): ?>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="radio" name="winner_radio" id="winner_b" value="b">
-                                <label class="form-check-label" for="winner_b"><small class="text-muted"><?= __('Base record', 'duplicate') ?></small></label>
-                            </div>
-                            <?php endif; ?>
+                        <th class="dup-col-b<?= $can_edit ? ' dup-winner-header' : '' ?>" <?= $can_edit ? 'data-side="b"' : '' ?>>
                             <span class="badge bg-success dup-winner-badge me-1">B</span>
                             <?= $name_b ?>
                             <?php if ($agent_b): ?><?= $agent_icon ?><?php endif; ?>
@@ -493,6 +463,45 @@ Html::header(
 
 </div>
 
+<?php if ($can_edit): ?>
+<div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="instructionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="instructionsModalLabel">
+                    <i class="ti ti-help me-1"></i> <?= __('How to resolve this duplicate', 'duplicate') ?>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?= __('Close') ?>"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 1 — Choose a base record', 'duplicate') ?></h4>
+                        <p class="mb-0 text-muted small"><?= __('Click a column header to pick which record\'s ID is preserved after the merge. The other record will be deleted.', 'duplicate') ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 2 — Pick values for differing fields', 'duplicate') ?></h4>
+                        <p class="mb-0 text-muted small"><?= __('Rows highlighted in yellow have different values between A and B. Select a radio button in that row to choose which value to keep on the base record.', 'duplicate') ?></p>
+                    </div>
+                    <div class="col-12">
+                        <h4 class="fw-semibold mb-2"><?= __('Step 3 — Act', 'duplicate') ?></h4>
+                        <ul class="mb-0 small text-muted ps-3">
+                            <li><strong><?= __('Keep A, delete B', 'duplicate') ?></strong> — <?= __('Keeps record A exactly as-is and permanently deletes record B. No field choices are applied.', 'duplicate') ?></li>
+                            <li><strong><?= __('Keep B, delete A', 'duplicate') ?></strong> — <?= __('Keeps record B exactly as-is and permanently deletes record A. No field choices are applied.', 'duplicate') ?></li>
+                            <li><strong><?= __('Merge with selected values', 'duplicate') ?></strong> — <?= __('Saves your per-field choices to the base record, transfers linked records from the deleted record, then deletes the other record.', 'duplicate') ?></li>
+                            <li><strong><?= __('Not a duplicate', 'duplicate') ?></strong> — <?= __('Dismisses this pair without making any changes. The pair will no longer appear in the duplicates list.', 'duplicate') ?></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= __('Close') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
 <?php if ($can_edit):
     $js_i18n = [
         'processing'      => __('Processing…', 'duplicate'),
@@ -515,6 +524,7 @@ Html::header(
     var indexUrl  = <?= json_encode($index_url) ?>;
     var csrfToken = <?= json_encode($csrf_token) ?>;
     var dup_i18n  = <?= json_encode($js_i18n, JSON_HEX_TAG) ?>;
+    var winner    = 'a';
 
     function updateWinnerVisual(side) {
         var badgeA = document.getElementById('dup-kept-badge-a');
@@ -528,11 +538,12 @@ Html::header(
         }
     }
 
-    // When winner radio changes, auto-select that side for all differing field rows
-    // including infocom diff rows (per-record checkboxes are independent of winner choice)
-    document.querySelectorAll('input[name="winner_radio"]').forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            var side = this.value;
+    // Clicking a column header selects it as the winner and auto-selects per-field radios
+    document.querySelectorAll('th.dup-winner-header').forEach(function(th) {
+        th.addEventListener('click', function(e) {
+            if (e.target.closest('a')) return;
+            var side = this.dataset.side;
+            winner = side;
             updateWinnerVisual(side);
             document.querySelectorAll('tr[data-has-diff="1"], tr.dup-infocom-diff-row').forEach(function(row) {
                 var sideRadio = row.querySelector('input[data-side="' + side + '"]');
@@ -557,10 +568,7 @@ Html::header(
         });
     });
 
-    function getWinner() {
-        var radio = document.querySelector('input[name="winner_radio"]:checked');
-        return radio ? radio.value : 'a';
-    }
+    function getWinner() { return winner; }
 
     // postAction accepts an array of [key, value] pairs to support repeated keys (PHP arrays)
     function postAction(action, winner_id, loser_ids, pairs) {
@@ -676,6 +684,19 @@ Html::header(
         postAction('ignore', idA, [idB])
             .then(function(resp) { resp.success ? onSuccess() : onError(resp.error); setLoading(btn, false); })
             .catch(function() { onError(dup_i18n.networkError); setLoading(btn, false); });
+    });
+
+    document.querySelectorAll('.dup-compare-table').forEach(function(tbl) {
+        tbl.addEventListener('click', function(e) {
+            var td = e.target.closest('td.dup-col-a, td.dup-col-b');
+            if (!td) return;
+            var tr = td.closest('tr');
+            if (!tr) return;
+            var isDiff = tr.dataset.hasDiff === '1' || tr.classList.contains('dup-infocom-diff-row');
+            if (!isDiff) return;
+            var radio = td.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+        });
     });
 })();
 </script>
