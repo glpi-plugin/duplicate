@@ -268,7 +268,8 @@ class DuplicateChecker
 
         $table    = $types[$itemtype]['table'];
         $has_uuid = $types[$itemtype]['has_uuid'];
-        $pairs    = [];
+        $pairs      = [];
+        $seen_pairs = [];
 
         $ignored = [];
         foreach ($DB->request(['SELECT' => ['items_id_a', 'items_id_b', 'match_reason'], 'FROM' => 'glpi_plugin_duplicate_ignored', 'WHERE' => ['itemtype' => $itemtype]]) as $row) {
@@ -276,15 +277,15 @@ class DuplicateChecker
         }
 
         $candidates = [
-            ['reason' => 'serial',      'field' => 'serial',      'skip_empty' => true],
-            ['reason' => 'otherserial', 'field' => 'otherserial', 'skip_empty' => true],
-            ['reason' => 'name',        'field' => 'name',        'skip_empty' => false],
+            ['reason' => 'serial',      'field' => 'serial',      'skip_empty' => true,  'skip_values' => []],
+            ['reason' => 'otherserial', 'field' => 'otherserial', 'skip_empty' => true,  'skip_values' => ['No Asset Information', 'Chassis Asset Tag', 'To be filled by O.E.M']],
+            ['reason' => 'name',        'field' => 'name',        'skip_empty' => false, 'skip_values' => ['PF-'], 'skip_types' => ['Monitor', 'Peripheral']],
         ];
         if ($has_uuid) {
             $candidates[] = ['reason' => 'uuid', 'field' => 'uuid', 'skip_empty' => true];
         }
 
-        $checks = array_filter($candidates, fn($c) => $DB->fieldExists($table, $c['field']));
+        $checks = array_filter($candidates, fn($c) => $DB->fieldExists($table, $c['field']) && !in_array($itemtype, $c['skip_types'] ?? [], true));
 
         if (empty($checks)) {
             return [];
@@ -304,6 +305,9 @@ class DuplicateChecker
                 if ($c['skip_empty'] && $val === '') {
                     continue;
                 }
+                if (!empty($c['skip_values']) && in_array($val, $c['skip_values'], true)) {
+                    continue;
+                }
                 $groups[$c['reason']][$val][] = (int) $row['id'];
             }
         }
@@ -318,12 +322,14 @@ class DuplicateChecker
                     for ($j = $i + 1; $j < $n; $j++) {
                         $id_a = min($ids[$i], $ids[$j]);
                         $id_b = max($ids[$i], $ids[$j]);
-                        $key  = "{$id_a}-{$id_b}-{$reason}";
+                        $key      = "{$id_a}-{$id_b}-{$reason}";
+                        $pair_key = "{$id_a}-{$id_b}";
 
-                        if (isset($pairs[$key]) || isset($ignored[$key])) {
+                        if (isset($seen_pairs[$pair_key]) || isset($ignored[$key])) {
                             continue;
                         }
 
+                        $seen_pairs[$pair_key] = true;
                         $pairs[$key] = [
                             'itemtype'    => $itemtype,
                             'ids'         => [$id_a, $id_b],
