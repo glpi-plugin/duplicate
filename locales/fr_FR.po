@@ -431,3 +431,42 @@ msgstr "Garantie jusqu'à : "
 
 msgid "Record ID: "
 msgstr "ID d'enregistrement : "
+
+msgid "Search match value…"
+msgstr "Rechercher une valeur…"
+
+msgid "Asset type"
+msgstr "Type d'actif"
+
+msgid "Match reason"
+msgstr "Raison de correspondance"
+
+msgid "All types"
+msgstr "Tous les types"
+
+msgid "All reasons"
+msgstr "Toutes les raisons"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Serial number"
+msgstr "Numéro de série"
+
+msgid "UUID match"
+msgstr "UUID"
+
+msgid "Inventory number"
+msgstr "Numéro d'inventaire"
+
+msgid "Name match"
+msgstr "Nom"
+
+msgid "filtered from %d total"
+msgstr "filtré(s) sur %d au total"
+
+msgid "No pairs match the current filters."
+msgstr "Aucune paire ne correspond aux filtres actuels."

@@ -35,7 +35,17 @@ foreach (array_keys(DuplicateChecker::getAssetTypes()) as $itemtype) {
     }
 }
 
-// Pagination
+// Filter inputs
+$valid_reasons = ['serial', 'uuid', 'otherserial', 'name'];
+$valid_types   = array_keys(DuplicateChecker::getAssetTypes());
+
+$filter_search = trim((string)($_GET['filter_search'] ?? ''));
+$filter_type   = in_array($_GET['filter_type'] ?? '', $valid_types, true) ? $_GET['filter_type'] : '';
+$filter_reason = in_array($_GET['filter_reason'] ?? '', $valid_reasons, true) ? $_GET['filter_reason'] : '';
+
+$has_filters = ($filter_search !== '' || $filter_type !== '' || $filter_reason !== '');
+
+// Flatten pairs
 $flat_pairs = [];
 foreach ($all_results as $itemtype => $pairs) {
     foreach ($pairs as $pair) {
@@ -43,12 +53,25 @@ foreach ($all_results as $itemtype => $pairs) {
     }
 }
 
+// Apply filters before pagination
+if ($has_filters) {
+    $flat_pairs = array_values(array_filter($flat_pairs, function ($entry) use ($filter_search, $filter_type, $filter_reason) {
+        if ($filter_type !== '' && $entry['itemtype'] !== $filter_type) return false;
+        if ($filter_reason !== '' && $entry['pair']['reason'] !== $filter_reason) return false;
+        if ($filter_search !== '' && stripos($entry['pair']['match_value'], $filter_search) === false) return false;
+        return true;
+    }));
+}
+
+$filtered_count = count($flat_pairs);
+
+// Pagination (based on filtered count)
 $allowed_per_page = [25, 50, 100];
-$per_page_input = (int)($_GET['per_page'] ?? 50);
-$per_page = in_array($per_page_input, $allowed_per_page) ? $per_page_input : 50;
-$total_pages = $total_count > 0 ? (int)ceil($total_count / $per_page) : 1;
-$page = max(1, min($total_pages, (int)($_GET['page'] ?? 1)));
-$offset = ($page - 1) * $per_page;
+$per_page_input   = (int)($_GET['per_page'] ?? 50);
+$per_page         = in_array($per_page_input, $allowed_per_page) ? $per_page_input : 50;
+$total_pages      = $filtered_count > 0 ? (int)ceil($filtered_count / $per_page) : 1;
+$page             = max(1, min($total_pages, (int)($_GET['page'] ?? 1)));
+$offset           = ($page - 1) * $per_page;
 
 $page_flat = array_slice($flat_pairs, $offset, $per_page);
 $page_results = [];
@@ -113,11 +136,81 @@ Html::header(
         <div class="alert alert-warning d-flex align-items-center gap-2 mb-3">
             <i class="ti ti-alert-triangle fs-4"></i>
             <div>
-                <strong><?= $total_count ?> <?= _n('duplicate pair', 'duplicate pairs', $total_count, 'duplicate') ?> <?= __('found', 'duplicate') ?></strong>
-                <?= __('across', 'duplicate') ?> <?= count($all_results) ?> <?= _n('asset type', 'asset types', count($all_results), 'duplicate') ?>.
+                <?php if ($has_filters): ?>
+                    <strong><?= $filtered_count ?> <?= _n('duplicate pair', 'duplicate pairs', $filtered_count, 'duplicate') ?> <?= __('found', 'duplicate') ?></strong>
+                    <span class="text-muted">(<?= sprintf(__('filtered from %d total', 'duplicate'), $total_count) ?>)</span>
+                <?php else: ?>
+                    <strong><?= $total_count ?> <?= _n('duplicate pair', 'duplicate pairs', $total_count, 'duplicate') ?> <?= __('found', 'duplicate') ?></strong>
+                    <?= __('across', 'duplicate') ?> <?= count($all_results) ?> <?= _n('asset type', 'asset types', count($all_results), 'duplicate') ?>.
+                <?php endif; ?>
             </div>
         </div>
 
+        <!-- Filter bar -->
+        <form method="get" action="" class="card mb-3 p-3">
+            <div class="row g-2 align-items-end">
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label small mb-1" for="dup-filter-search"><?= __('Match Value', 'duplicate') ?></label>
+                    <input type="text"
+                           id="dup-filter-search"
+                           name="filter_search"
+                           class="form-control form-control-sm"
+                           placeholder="<?= htmlspecialchars(__('Search match value…', 'duplicate'), ENT_QUOTES) ?>"
+                           value="<?= htmlspecialchars($filter_search, ENT_QUOTES) ?>">
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <label class="form-label small mb-1" for="dup-filter-type"><?= __('Asset type', 'duplicate') ?></label>
+                    <select id="dup-filter-type" name="filter_type" class="form-select form-select-sm">
+                        <option value=""><?= __('All types', 'duplicate') ?></option>
+                        <?php foreach ($valid_types as $at): ?>
+                            <option value="<?= htmlspecialchars($at, ENT_QUOTES) ?>"<?= $filter_type === $at ? ' selected' : '' ?>>
+                                <?= htmlspecialchars($at, ENT_QUOTES) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <label class="form-label small mb-1" for="dup-filter-reason"><?= __('Match reason', 'duplicate') ?></label>
+                    <select id="dup-filter-reason" name="filter_reason" class="form-select form-select-sm">
+                        <option value=""><?= __('All reasons', 'duplicate') ?></option>
+                        <option value="serial"<?= $filter_reason === 'serial' ? ' selected' : '' ?>><?= __('Serial number', 'duplicate') ?></option>
+                        <option value="uuid"<?= $filter_reason === 'uuid' ? ' selected' : '' ?>><?= __('UUID match', 'duplicate') ?></option>
+                        <option value="otherserial"<?= $filter_reason === 'otherserial' ? ' selected' : '' ?>><?= __('Inventory number', 'duplicate') ?></option>
+                        <option value="name"<?= $filter_reason === 'name' ? ' selected' : '' ?>><?= __('Name match', 'duplicate') ?></option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-2 d-flex gap-2">
+                    <input type="hidden" name="per_page" value="<?= $per_page ?>">
+                    <button type="submit" class="btn btn-primary btn-sm flex-grow-1">
+                        <i class="ti ti-filter"></i> <?= __('Filter', 'duplicate') ?>
+                    </button>
+                    <?php if ($has_filters): ?>
+                        <a href="<?= htmlspecialchars(Plugin::getWebDir('duplicate') . '/front/index.php', ENT_QUOTES) ?>"
+                           class="btn btn-outline-secondary btn-sm"
+                           title="<?= htmlspecialchars(__('Clear', 'duplicate'), ENT_QUOTES) ?>">
+                            <i class="ti ti-x"></i> <?= __('Clear', 'duplicate') ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </form>
+
+        <?php if ($filtered_count === 0 && $has_filters): ?>
+            <div class="alert alert-info d-flex align-items-center gap-2">
+                <i class="ti ti-search-off fs-4"></i>
+                <div>
+                    <?= __('No pairs match the current filters.', 'duplicate') ?>
+                    <a href="<?= htmlspecialchars(Plugin::getWebDir('duplicate') . '/front/index.php', ENT_QUOTES) ?>" class="ms-2">
+                        <?= __('Clear', 'duplicate') ?>
+                    </a>
+                </div>
+            </div>
+        <?php else: ?>
         <?php foreach ($page_results as $itemtype => $pairs): ?>
             <div class="card dup-itemtype-card">
                 <div class="card-header d-flex align-items-center gap-2">
@@ -216,17 +309,24 @@ Html::header(
                 </div>
             </div>
         <?php endforeach; ?>
+        <?php endif; ?>
 
-        <?php if ($total_pages > 1 || $per_page !== 50): ?>
+        <?php
+        $pagination_base = ['per_page' => $per_page];
+        if ($filter_search !== '') $pagination_base['filter_search'] = $filter_search;
+        if ($filter_type   !== '') $pagination_base['filter_type']   = $filter_type;
+        if ($filter_reason !== '') $pagination_base['filter_reason'] = $filter_reason;
+        ?>
+        <?php if ($total_pages > 1 || $per_page !== 50 || $has_filters): ?>
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3">
             <small class="text-muted">
-                <?= sprintf(__('Showing %d–%d of %d pairs', 'duplicate'), $offset + 1, min($offset + $per_page, $total_count), $total_count) ?>
+                <?= sprintf(__('Showing %d–%d of %d pairs', 'duplicate'), $offset + 1, min($offset + $per_page, $filtered_count), $filtered_count) ?>
             </small>
 
             <nav aria-label="Duplicate pairs pagination">
                 <ul class="pagination pagination-sm mb-0">
                     <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>&per_page=<?= $per_page ?>">
+                        <a class="page-link" href="?<?= http_build_query(array_merge($pagination_base, ['page' => $page - 1])) ?>">
                             <i class="ti ti-chevron-left"></i>
                         </a>
                     </li>
@@ -243,26 +343,36 @@ Html::header(
                             <li class="page-item disabled"><span class="page-link">…</span></li>
                         <?php endif; ?>
                         <li class="page-item<?= $p === $page ? ' active' : '' ?>">
-                            <a class="page-link" href="?page=<?= $p ?>&per_page=<?= $per_page ?>"><?= $p ?></a>
+                            <a class="page-link" href="?<?= http_build_query(array_merge($pagination_base, ['page' => $p])) ?>"><?= $p ?></a>
                         </li>
                     <?php $prev = $p; endforeach; ?>
                     <li class="page-item<?= $page >= $total_pages ? ' disabled' : '' ?>">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>&per_page=<?= $per_page ?>">
+                        <a class="page-link" href="?<?= http_build_query(array_merge($pagination_base, ['page' => $page + 1])) ?>">
                             <i class="ti ti-chevron-right"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <div class="d-flex align-items-center gap-1">
+            <form class="d-flex align-items-center gap-1" method="get">
+                <?php if ($filter_search !== ''): ?>
+                    <input type="hidden" name="filter_search" value="<?= htmlspecialchars($filter_search, ENT_QUOTES) ?>">
+                <?php endif; ?>
+                <?php if ($filter_type !== ''): ?>
+                    <input type="hidden" name="filter_type" value="<?= htmlspecialchars($filter_type, ENT_QUOTES) ?>">
+                <?php endif; ?>
+                <?php if ($filter_reason !== ''): ?>
+                    <input type="hidden" name="filter_reason" value="<?= htmlspecialchars($filter_reason, ENT_QUOTES) ?>">
+                <?php endif; ?>
+                <input type="hidden" name="page" value="1">
                 <label class="text-muted small mb-0" for="dup-per-page"><?= __('Per page:', 'duplicate') ?></label>
-                <select id="dup-per-page" class="form-select form-select-sm" style="width:auto"
-                        onchange="location.href='?page=1&per_page='+this.value">
+                <select id="dup-per-page" name="per_page" class="form-select form-select-sm" style="width:auto"
+                        onchange="this.form.submit()">
                     <?php foreach ($allowed_per_page as $n): ?>
                         <option value="<?= $n ?>"<?= $n === $per_page ? ' selected' : '' ?>><?= $n ?></option>
                     <?php endforeach; ?>
                 </select>
-            </div>
+            </form>
         </div>
         <?php endif; ?>
 

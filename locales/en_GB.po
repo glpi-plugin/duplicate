@@ -432,3 +432,42 @@ msgstr "Warranty until: "
 
 msgid "Record ID: "
 msgstr "Record ID: "
+
+msgid "Search match value…"
+msgstr "Search match value…"
+
+msgid "Asset type"
+msgstr "Asset type"
+
+msgid "Match reason"
+msgstr "Match reason"
+
+msgid "All types"
+msgstr "All types"
+
+msgid "All reasons"
+msgstr "All reasons"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Serial number"
+msgstr "Serial number"
+
+msgid "UUID match"
+msgstr "UUID match"
+
+msgid "Inventory number"
+msgstr "Inventory number"
+
+msgid "Name match"
+msgstr "Name match"
+
+msgid "filtered from %d total"
+msgstr "filtered from %d total"
+
+msgid "No pairs match the current filters."
+msgstr "No pairs match the current filters."
