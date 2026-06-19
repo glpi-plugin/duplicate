@@ -240,17 +240,39 @@ class DuplicateChecker
     public static function getAgentManagedBatch(string $itemtype, array $ids): array
     {
         global $DB;
-        if (empty($ids) || !$DB->tableExists('glpi_agents')) {
+        if (empty($ids)) {
             return array_fill_keys($ids, false);
         }
         $managed = array_fill_keys($ids, false);
-        foreach ($DB->request([
-            'SELECT' => ['items_id'],
-            'FROM'   => 'glpi_agents',
-            'WHERE'  => ['itemtype' => $itemtype, 'items_id' => $ids],
-        ]) as $row) {
-            $managed[(int) $row['items_id']] = true;
+
+        // Agent-hosted items (Computer, NetworkEquipment, some Printers via SNMP)
+        if ($DB->tableExists('glpi_agents')) {
+            foreach ($DB->request([
+                'SELECT' => ['items_id'],
+                'FROM'   => 'glpi_agents',
+                'WHERE'  => ['itemtype' => $itemtype, 'items_id' => $ids],
+            ]) as $row) {
+                $managed[(int) $row['items_id']] = true;
+            }
         }
+
+        // Fallback: sub-inventory items (Peripheral, Monitor, etc.) are never in
+        // glpi_agents but have is_dynamic = 1 when discovered via agent inventory.
+        $unmarked = array_keys(array_filter($managed, fn($v) => !$v));
+        if (!empty($unmarked)) {
+            $types = self::getAssetTypes();
+            $table = $types[$itemtype]['table'] ?? null;
+            if ($table && $DB->tableExists($table)) {
+                foreach ($DB->request([
+                    'SELECT' => ['id'],
+                    'FROM'   => $table,
+                    'WHERE'  => ['id' => $unmarked, 'is_dynamic' => 1],
+                ]) as $row) {
+                    $managed[(int) $row['id']] = true;
+                }
+            }
+        }
+
         return $managed;
     }
 
